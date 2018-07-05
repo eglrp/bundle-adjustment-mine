@@ -1,0 +1,3 @@
+/home/ritvik/3dscanning/bundle-adjustment/CMakeFiles/edit_cache.dir
+/home/ritvik/3dscanning/bundle-adjustment/CMakeFiles/rebuild_cache.dir
+/home/ritvik/3dscanning/bundle-adjustment/CMakeFiles/bundle_adjustement.dir
