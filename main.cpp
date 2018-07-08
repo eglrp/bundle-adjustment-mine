@@ -53,9 +53,9 @@ void split(const std::string &s, char delim, std::vector<std::string> &elems) {
 
 int main(int argc, char *argv[]){
 
-    std::cout << "VISUALIZE RESULTS" << std::endl;
-    visualizeResults();
-    exit(0);
+//    std::cout << "VISUALIZE RESULTS" << std::endl;
+//    visualizeResults();
+//    exit(0);
 
     std::cout << "PHASE 0: Get data" << std::endl;
 
@@ -345,8 +345,8 @@ int main(int argc, char *argv[]){
     }
 
     for ( int p = 0; p < projectedAfter.size(); p++){
-        std::cout << points2d1[p].x() << "           " << points2d1[p].y() << std::endl;
-        std::cout << projectedAfter[p].x() << "           " << projectedAfter[p].y() << std::endl;
+        std::cout << "Frame0 Feature Point: " << points2d1[p].x() << "           " << points2d1[p].y() << std::endl;
+        std::cout << "Frame0 Trngltd Point: " << projectedAfter[p].x() << "           " << projectedAfter[p].y() << std::endl;
         std::cout << "" << std::endl;
     }
 
