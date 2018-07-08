@@ -10,6 +10,7 @@
 #include "Eigen.h"
 #include "PointCloud.h"
 #include "Optimization.h"
+#include <pangolin/pangolin.h>
 
 using namespace std;
 using namespace cv;
@@ -23,6 +24,7 @@ void detect_features(string method, vector<Mat> images);
 void test_detectors(vector<Mat> images);
 Matrix4f getExtrinsicsFromQuaternion(std::vector<string>);
 std::vector<Vector3f> performTriangulation(std::vector<Vector2f> points2dFrame1, std::vector<Vector2f> points2dFrame2, Matrix4f extrinsicsFrame1, Matrix4f extrinsicsFrame2, Matrix3f intrinsics);
+void visualizeResults();
 
 int SKIP_FRAMES = 5;
 
@@ -50,6 +52,10 @@ void split(const std::string &s, char delim, std::vector<std::string> &elems) {
 
 
 int main(int argc, char *argv[]){
+
+    std::cout << "VISUALIZE RESULTS" << std::endl;
+    visualizeResults();
+    exit(0);
 
     std::cout << "PHASE 0: Get data" << std::endl;
 
@@ -570,27 +576,6 @@ std::vector<Vector3f> performTriangulation(std::vector<Vector2f> points2dFrame1,
             b[2] = ((points2dFrame2[g].x() * extrinsicsFrame2(2,3)) - (cameraIntrinsics(0,2) * extrinsicsFrame2(2,3)) - (cameraIntrinsics(0,0) * extrinsicsFrame2(0,3)));
             b[3] = ((points2dFrame2[g].y() * extrinsicsFrame2(2,3)) - (cameraIntrinsics(1,2) * extrinsicsFrame2(2,3)) - (cameraIntrinsics(1,1) * extrinsicsFrame2(1,3)));
 
-//            A(0, 0) = ((points2dFrame1[g].x() - cameraIntrinsics(0, 2)) * extrinsicsFrame1(2, 0)) - (cameraIntrinsics(0, 0) * extrinsicsFrame1(0, 0));
-//            A(0, 1) = ((points2dFrame1[g].x() - cameraIntrinsics(0, 2)) * extrinsicsFrame1(2, 1)) - (cameraIntrinsics(0, 0) * extrinsicsFrame1(0, 1));
-//            A(0, 2) = ((points2dFrame1[g].x() - cameraIntrinsics(0, 2)) * extrinsicsFrame1(2, 2)) - (cameraIntrinsics(0, 0) * extrinsicsFrame1(0, 2));
-//
-//            A(1, 0) = ((points2dFrame1[g].y() - cameraIntrinsics(1, 2)) * extrinsicsFrame1(2, 0)) - (cameraIntrinsics(1, 1) * extrinsicsFrame1(1, 0));
-//            A(1, 1) = ((points2dFrame1[g].y() - cameraIntrinsics(1, 2)) * extrinsicsFrame1(2, 1)) - (cameraIntrinsics(1, 1) * extrinsicsFrame1(1, 1));
-//            A(1, 2) = ((points2dFrame1[g].y() - cameraIntrinsics(1, 2)) * extrinsicsFrame1(2, 2)) - (cameraIntrinsics(1, 1) * extrinsicsFrame1(1, 2));
-//
-//            A(2, 0) = ((points2dFrame2[g].x() - cameraIntrinsics(0, 2)) * extrinsicsFrame2(2, 0)) - (cameraIntrinsics(0, 0) * extrinsicsFrame2(0, 0));
-//            A(2, 1) = ((points2dFrame2[g].x() - cameraIntrinsics(0, 2)) * extrinsicsFrame2(2, 1)) - (cameraIntrinsics(0, 0) * extrinsicsFrame2(0, 1));
-//            A(2, 2) = ((points2dFrame2[g].x() - cameraIntrinsics(0, 2)) * extrinsicsFrame2(2, 2)) - (cameraIntrinsics(0, 0) * extrinsicsFrame2(0, 2));
-//
-//            A(3, 0) = ((points2dFrame2[g].y() - cameraIntrinsics(1, 2)) * extrinsicsFrame2(2, 0)) - (cameraIntrinsics(1, 1) * extrinsicsFrame2(1, 0));
-//            A(3, 1) = ((points2dFrame2[g].y() - cameraIntrinsics(1, 2)) * extrinsicsFrame2(2, 1)) - (cameraIntrinsics(1, 1) * extrinsicsFrame2(1, 1));
-//            A(3, 2) = ((points2dFrame2[g].y() - cameraIntrinsics(1, 2)) * extrinsicsFrame2(2, 2)) - (cameraIntrinsics(1, 1) * extrinsicsFrame2(1, 2));
-//
-//            b[0] = (cameraIntrinsics(0, 0) * extrinsicsFrame1(0, 3)) + ((cameraIntrinsics(0, 2) - points2dFrame1[g].x()) * extrinsicsFrame1(2, 3));
-//            b[1] = (cameraIntrinsics(1, 1) * extrinsicsFrame1(1, 3)) + ((cameraIntrinsics(1, 2) - points2dFrame1[g].y()) * extrinsicsFrame1(2, 3));
-//            b[2] = (cameraIntrinsics(0, 0) * extrinsicsFrame2(0, 3)) + ((cameraIntrinsics(0, 2) - points2dFrame2[g].x()) * extrinsicsFrame2(2, 3));
-//            b[3] = (cameraIntrinsics(1, 1) * extrinsicsFrame2(1, 3)) + ((cameraIntrinsics(1, 2) - points2dFrame2[g].y()) * extrinsicsFrame2(2, 3));
-
             // Solve the system of equations
             x = A.bdcSvd(ComputeThinU | ComputeThinV).solve(b);
 //            x = A.colPivHouseholderQr().solve(b);
@@ -603,5 +588,94 @@ std::vector<Vector3f> performTriangulation(std::vector<Vector2f> points2dFrame1,
     } else{
         std::cout << "PHASE 4.1: No New Points were present for Triangulation" <<std::endl;
         return points3dTriangulation;
+    }
+}
+
+void visualizeResults(){
+
+    // Simulated data for testing and should be removed later
+    Matrix4f cameraExtrinsics;
+    cameraExtrinsics << 1.0, 0.0, 0.0, 1.0,
+                        0.0, 1.0, 0.0, 1.0,
+                        0.0, 0.0, 1.0, 1.0,
+                        0.0, 0.0, 0.0, 1.0;
+
+    std::vector<Vector3f> global3dPoints;
+    std::vector<Matrix4f> allCameraExtrinsics;
+    allCameraExtrinsics.push_back(cameraExtrinsics);
+
+    float LO = -3.0;
+    float HI = 3.0;
+
+    for (int i = 0; i < 100; i++){
+        float r1 = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));
+        float r2 = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));
+        float r3 = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));
+        global3dPoints.push_back(Vector3f(r1, r2, r3));
+    }
+    // End of simulated data generation
+
+    // Create OpenGL window in single line
+    pangolin::CreateWindowAndBind("Main",640,480);
+
+    // 3D Mouse handler requires depth testing to be enabled
+    glEnable(GL_DEPTH_TEST);
+
+    // Issue specific OpenGl we might need
+    glEnable (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Define Camera Render Object (for view / scene browsing)
+    pangolin::OpenGlRenderState s_cam(
+            pangolin::ProjectionMatrix(640,480,420,420,320,240,0.1,1000),
+            pangolin::ModelViewLookAt(-1,-0.3,-3, -1,0,0, 0.0,-1.0,0.0)
+    );
+
+    pangolin::View& d_cam = pangolin::Display("World")
+            .SetBounds(0.0f, 1.0f, pangolin::Attach::Pix(120), 1.0, -640.0f/480.0f)
+            .SetHandler(new pangolin::Handler3D(s_cam));
+
+    const float tinc = 0.01f;
+    float t = 0;
+
+    // Default hooks for exiting (Esc) and fullscreen (tab).
+    while( !pangolin::ShouldQuit() )
+    {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        d_cam.Activate(s_cam);
+
+        // Get the points
+        glPointSize(2);
+        glBegin(GL_POINTS);
+        glColor3f(1.0,1.0,1.0);
+        for (int i = 0; i < global3dPoints.size(); i++){
+            glVertex3f(global3dPoints[i].x(), global3dPoints[i].y(), global3dPoints[i].z());
+        }
+        glColor3f(1.0,0.0,0.0);
+        for (int i = 0; i < allCameraExtrinsics.size(); i++){
+            glVertex3f(allCameraExtrinsics[i](0, 3), allCameraExtrinsics[i](1, 3), allCameraExtrinsics[i](2, 3));
+        }
+        glEnd();
+
+        t += tinc;
+
+        //Simulated data to add new 3d points needs to be removed later
+        //Adding some new dummy points
+        for ( int i = 0; i < 1; i++){
+            float r1 = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));
+            float r2 = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));
+            float r3 = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));
+            global3dPoints.push_back(Vector3f(r1, r2, r3));
+        }
+        //Changing the camera translation
+        cameraExtrinsics(0, 3) = cameraExtrinsics(0, 3) - cameraExtrinsics(0, 3)/1000.0f;
+        cameraExtrinsics(1, 3) = cameraExtrinsics(1, 3) - cameraExtrinsics(1, 3)/1000.0f;
+        cameraExtrinsics(2, 3) = cameraExtrinsics(2, 3) - cameraExtrinsics(2, 3)/1000.0f;
+        allCameraExtrinsics.push_back(cameraExtrinsics);
+        //Simulated data ends
+
+        // Render graph, Swap frames and Process Events
+        pangolin::FinishFrame();
     }
 }
