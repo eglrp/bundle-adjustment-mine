@@ -30,8 +30,8 @@ find_package(Pangolin 0.4 REQUIRED)
 include_directories(${Pangolin_INCLUDE_DIRS})
 
 # Set files to be compiled
-set(HEADER_FILES 
-    Eigen.h PointCloud.h Optimization.h)
+set(HEADER_FILES
+        Eigen.h PointCloud.h Aggregator.h Optimization.h)
 
 add_executable(${PROJECT_NAME} main.cpp ${HEADER_FILES} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} ${FREEIMAGE_LIBRARIES} ${FLANN_LIBRARIES} ${CERES_LIBRARIES} ${OpenCV_LIBS} ${Pangolin_LIBRARIES})

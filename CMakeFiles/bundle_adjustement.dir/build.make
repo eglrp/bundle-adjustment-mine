@@ -121,6 +121,7 @@ bundle_adjustement: /usr/local/lib/libopencv_phase_unwrapping.so.4.0.0
 bundle_adjustement: /usr/local/lib/libopencv_saliency.so.4.0.0
 bundle_adjustement: /usr/local/lib/libopencv_optflow.so.4.0.0
 bundle_adjustement: /usr/local/lib/libopencv_img_hash.so.4.0.0
+bundle_adjustement: /home/ritvik/3dscanning/Pangolin/build/src/libpangolin.so
 bundle_adjustement: /usr/lib/x86_64-linux-gnu/libglog.so
 bundle_adjustement: /usr/lib/x86_64-linux-gnu/libgflags.so
 bundle_adjustement: /usr/lib/x86_64-linux-gnu/libspqr.so
@@ -165,6 +166,20 @@ bundle_adjustement: /usr/local/lib/libopencv_imgcodecs.so.4.0.0
 bundle_adjustement: /usr/local/lib/libopencv_flann.so.4.0.0
 bundle_adjustement: /usr/local/lib/libopencv_imgproc.so.4.0.0
 bundle_adjustement: /usr/local/lib/libopencv_core.so.4.0.0
+bundle_adjustement: /usr/lib/x86_64-linux-gnu/libGLU.so
+bundle_adjustement: /usr/lib/x86_64-linux-gnu/libGL.so
+bundle_adjustement: /usr/lib/x86_64-linux-gnu/libGLEW.so
+bundle_adjustement: /usr/lib/x86_64-linux-gnu/libSM.so
+bundle_adjustement: /usr/lib/x86_64-linux-gnu/libICE.so
+bundle_adjustement: /usr/lib/x86_64-linux-gnu/libX11.so
+bundle_adjustement: /usr/lib/x86_64-linux-gnu/libXext.so
+bundle_adjustement: /usr/lib/x86_64-linux-gnu/libdc1394.so
+bundle_adjustement: /usr/lib/libOpenNI.so
+bundle_adjustement: /home/ritvik/anaconda3/lib/libpng.so
+bundle_adjustement: /home/ritvik/anaconda3/lib/libz.so
+bundle_adjustement: /home/ritvik/anaconda3/lib/libjpeg.so
+bundle_adjustement: /home/ritvik/anaconda3/lib/libtiff.so
+bundle_adjustement: /usr/lib/x86_64-linux-gnu/libIlmImf.so
 bundle_adjustement: CMakeFiles/bundle_adjustement.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ritvik/3dscanning/bundle-adjustment/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bundle_adjustement"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/bundle_adjustement.dir/link.txt --verbose=$(VERBOSE)

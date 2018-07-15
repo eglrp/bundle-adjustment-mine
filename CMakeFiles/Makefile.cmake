@@ -7,6 +7,9 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
+  "/home/ritvik/3dscanning/Pangolin/build/src/PangolinConfig.cmake"
+  "/home/ritvik/3dscanning/Pangolin/build/src/PangolinConfigVersion.cmake"
+  "/home/ritvik/3dscanning/Pangolin/build/src/PangolinTargets.cmake"
   "CMakeFiles/3.5.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.5.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.5.1/CMakeSystem.cmake"

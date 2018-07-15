@@ -6,5 +6,5 @@ CXX_FLAGS = -std=c++14
 
 CXX_DEFINES = -DPROJECT_DIR=\"/home/ritvik/3dscanning/bundle-adjustment\"
 
-CXX_INCLUDES = -I/usr/include/eigen3 -isystem /usr/local/include -isystem /usr/local/include/opencv 
+CXX_INCLUDES = -isystem /usr/include/eigen3 -isystem /usr/local/include -isystem /usr/local/include/opencv -isystem /home/ritvik/3dscanning/Pangolin/include -isystem /home/ritvik/3dscanning/Pangolin/build/src/include 
 

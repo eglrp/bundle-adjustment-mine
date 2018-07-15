@@ -18,6 +18,8 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/include/eigen3"
   "/usr/local/include"
   "/usr/local/include/opencv"
+  "/home/ritvik/3dscanning/Pangolin/include"
+  "/home/ritvik/3dscanning/Pangolin/build/src/include"
   )
 
 # Targets to which this target links.
